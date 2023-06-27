@@ -42,7 +42,7 @@ function! navigator#open(keymap, prefix, ...) abort
 		endif
 	endfor
 	let keymap = navigator#config#keymap_expand(a:keymap)
-	let opts.prefix = prefix
+	let opts.prefix = a:prefix
 	return navigator#state#open(keymap, opts)
 endfunc
 
@@ -50,7 +50,7 @@ endfunc
 "----------------------------------------------------------------------
 " execute command
 "----------------------------------------------------------------------
-function! navigator#choose(keymap, prefix, ...) abort
+function! navigator#cmd(keymap, prefix, ...) abort
 	let opts = (a:0 > 0)? (a:1) : {}
 	let path = navigator#open(a:keymap, a:prefix, opts)
 	if path == []
@@ -59,7 +59,18 @@ function! navigator#choose(keymap, prefix, ...) abort
 	let hr = navigator#config#visit(a:keymap, path)
 	if type(hr) == v:t_list
 		let cmd = (len(hr) > 0)? hr[0] : ''
-		exec cmd
+		try
+			if cmd =~ '^.\+(.*)$'
+				exec 'call ' . cmd
+			else
+				exec cmd
+			endif
+		catch
+			redraw
+			echohl ErrorMsg
+			echo v:exception
+			echohl None
+		endtry
 	endif
 	return 0
 endfunc
