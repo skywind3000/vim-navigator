@@ -1,2 +1,9 @@
 # vim-navigator
-Navigate Commands Easily
+
+## Installation
+
+```VimL
+Plug 'skywind3000/vim-quickui'
+Plug 'skywind3000/vim-navigator'
+```
+
