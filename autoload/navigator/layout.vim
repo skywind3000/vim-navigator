@@ -53,6 +53,7 @@ function! s:layout_horizon(ctx, opts) abort
 	let ctx.pg_height = (max_height < ctx.pg_height)? max_height : ctx.pg_height
 	let ctx.pg_height = (min_height > ctx.pg_height)? min_height : ctx.pg_height
 	let ctx.pg_size = ctx.pg_height * ctx.ncols
+	let ctx.cy = ctx.pg_height + ypad
 	let ctx.pages = []
 endfunc
 
@@ -66,8 +67,9 @@ function! s:layout_vertical(ctx, opts) abort
 	let ctx.ncols = 1
 	let ctx.nrows = len(ctx.items)
 	let ypad = padding[1] + padding[3]
-	let ctx.cy = ctx.wincy
-	let winheight = ctx.cy - ypad
+	let ctx.cx = ctx.stride + padding[0] + padding[2]
+	let ctx.cy = ctx.wincy - ypad
+	let winheight = ctx.cy
 	let winheight = (winheight < 1)? 1 : winheight
 	let ctx.pg_count = (ctx.nrows + winheight - 1) / winheight
 	if type(ctx.pg_count) == 5
@@ -75,6 +77,10 @@ function! s:layout_vertical(ctx, opts) abort
 	endif
 	let ctx.pg_height = (winheight < ctx.nrows)? winheight : ctx.nrows
 	let ctx.pg_size = ctx.pg_height
+	let min_width = navigator#config#get(a:opts, 'min_width')
+	let max_width = navigator#config#get(a:opts, 'max_width')
+	let ctx.cx = (ctx.cx < min_width)? min_width : ctx.cx
+	let ctx.cx = (ctx.cx > max_width)? max_width : ctx.cx
 	let ctx.pages = []
 endfunc
 

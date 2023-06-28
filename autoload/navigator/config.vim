@@ -18,7 +18,7 @@ let s:default_config = {
 			\ 'icon_breadcrumb': '>',
 			\ 'max_height': 20,
 			\ 'min_height': 5,
-			\ 'max_width': 60,
+			\ 'max_width': 45,
 			\ 'min_width': 20,
 			\ 'bracket': 0,
 			\ 'padding': [2, 0, 2, 0],
@@ -36,7 +36,7 @@ let s:position_dict = {
 			\ 'leftabove': 0, 'aboveleft': 0, 'lefta': 0, 'abo': 0,
 			\ 'rightbelow': 1, 'belowright': 1, 'rightb': 1, 'bel': 1,
 			\ 'topleft': 2, 'to': 2,
-			\ 'botright': 3, 'bo': 3,
+			\ 'botright': 3, 'bo': 3, 'bottom': 3, 'rightbot': 3,
 			\ }
 
 

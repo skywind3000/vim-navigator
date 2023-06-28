@@ -108,6 +108,22 @@ endfunc
 
 
 "----------------------------------------------------------------------
+" resize window to fit 
+"----------------------------------------------------------------------
+function! navigator#state#resize(ctx) abort
+	let ctx = a:ctx
+	let padding = navigator#config#get(s:opts, 'padding')
+	if s:vertical == 0
+		let height = ctx.cy
+		call navigator#display#resize(-1, height)
+	else
+		let width = ctx.cx
+		call navigator#display#resize(width, -1)
+	endif
+endfunc
+
+
+"----------------------------------------------------------------------
 " select: return key array
 "----------------------------------------------------------------------
 function! navigator#state#select(keymap, path) abort
@@ -139,9 +155,7 @@ function! navigator#state#select(keymap, path) abort
 		let context.page = ctx.pages[pg_index]
 		let context.index = pg_index
 		call navigator#config#store('context', context)
-		if s:vertical == 0
-			call navigator#display#resize(-1, ctx.pg_height)
-		endif
+		call navigator#state#resize(ctx)
 		call navigator#display#update(ctx.pages[pg_index].content, path)
 		noautocmd redraw
 		try

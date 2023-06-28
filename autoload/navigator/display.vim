@@ -34,6 +34,28 @@ endfunc
 
 
 "----------------------------------------------------------------------
+" calculate
+"----------------------------------------------------------------------
+function! s:need_keep(vertical, position) abort
+	let keep = 0
+	if a:vertical == 0
+		if index(['bottom', 'botright'], a:position) >= 0
+			let keep = (&splitbelow == 0)? 1 : 0
+		else
+			let keep = (&splitbelow != 0)? 1 : 0
+		endif
+	else
+		if index(['right', 'rightbelow', 'belowright'], a:position) >= 0
+			let keep = (&splitright == 0)? 1 : 0
+		else
+			let keep = (&splitright != 0)? 1 : 0
+		endif
+	endif
+	return keep
+endfunc
+
+
+"----------------------------------------------------------------------
 " window open
 "----------------------------------------------------------------------
 function! s:win_open() abort
@@ -43,13 +65,19 @@ function! s:win_open() abort
 	let min_height = navigator#config#get(opts, 'min_height')
 	let min_width = navigator#config#get(opts, 'min_width')
 	let s:previous_wid = winnr()
-	call navigator#utils#save_view()
+	let keep = s:need_keep(vertical, position)
+	if keep
+		call navigator#utils#save_view()
+	endif
 	if vertical == 0
 		exec printf('%s %dsplit', position, min_height)
 	else
 		exec printf('%s %dvsplit', position, min_width)
 	endif
-	call navigator#utils#restore_view()
+	if keep
+		call navigator#utils#restore_view()
+	endif
+	let w:_navigator_keep = keep
 	let s:working_wid = winnr()
 	if s:bid < 0
 		let s:bid = navigator#utils#create_buffer()
@@ -76,9 +104,14 @@ endfunc
 "----------------------------------------------------------------------
 function! s:win_close() abort
 	if s:working_wid > 0
-		call navigator#utils#save_view()
+		let keep = get(w:, '_navigator_keep', 0)
+		if keep
+			call navigator#utils#save_view()
+		endif
 		exec printf('%dclose', s:working_wid)
-		call navigator#utils#restore_view()
+		if keep
+			call navigator#utils#restore_view()
+		endif
 		let s:working_wid = -1
 		if s:previous_wid > 0
 			exec printf('%dwincmd w', s:previous_wid)
@@ -93,7 +126,14 @@ endfunc
 "----------------------------------------------------------------------
 function! s:win_resize(width, height) abort
 	if s:working_wid > 0
+		let keep = get(w:, '_navigator_keep', 0)
+		if keep
+			call navigator#utils#save_view()
+		endif
 		call navigator#utils#window_resize(s:working_wid, a:width, a:height)
+		if keep
+			call navigator#utils#restore_view()
+		endif
 	endif
 endfunc
 

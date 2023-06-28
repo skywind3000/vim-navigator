@@ -219,3 +219,17 @@ function! navigator#test#test5() abort
 endfunc
 
 
+function! navigator#test#test6() abort
+	let keymap = deepcopy(s:navigator_keymap)
+	let keymap = navigator#config#keymap_expand(keymap)
+	let opts = {}
+	let opts.vertical = 1
+	" let opts.position = 'topleft'
+	let opts.max_width = 35
+	" let opts.bracket = 1
+	" let opts.icon_separator = ''
+	let ch = navigator#state#open(keymap, opts)
+	return ch
+endfunc
+
+
