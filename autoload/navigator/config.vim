@@ -321,6 +321,13 @@ function! navigator#config#init(opts) abort
 	if index(['center', 'top'], opts.popup_position) < 0
 		let opts.popup_position = 'bottom'
 	endif
+	if opts.popup
+		if g:quickui#core#has_popup == 0
+			if g:quickui#core#has_floating == 0
+				let opts.popup = 0
+			endif
+		endif
+	endif
 	return opts
 endfunc
 
