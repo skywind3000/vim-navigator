@@ -87,7 +87,13 @@ function! s:win_open() abort
 	let w:_navigator_keep = keep
 	let s:working_wid = winnr()
 	if s:bid < 0
-		let s:bid = navigator#utils#create_buffer()
+		if exists('*bufadd')
+			let s:bid = navigator#utils#create_buffer()
+		else
+			exec 'enew'
+			let s:bid = bufnr('%')
+			setlocal nobuflisted nomodifiable bufhidden=hide
+		endif
 	endif
 	let bid = s:bid
 	exec 'b ' . bid

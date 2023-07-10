@@ -50,8 +50,8 @@ let s:position_dict = {
 function! navigator#config#get(opts, key) abort
 	if type(a:opts) == v:t_dict
 		let opts = a:opts
-	elseif type(a:opts) == type(v:null)
-		let opts = get(g:, 'quickui_navigator', {})
+	else
+		let opts = {}
 	endif
 	return get(opts, a:key, s:default_config[a:key])
 endfunc
@@ -87,9 +87,9 @@ endfunc
 "----------------------------------------------------------------------
 function! s:keymap_eval(keymap) abort
 	let keymap = a:keymap
-	if type(keymap) == v:t_func
+	if type(keymap) == 2
 		let keymap = call(keymap, [])
-	elseif type(keymap) == v:t_string
+	elseif type(keymap) == 1
 		let keymap = quickui#core#string_strip(keymap)
 		if keymap =~ '\v^\$\{(.*)\}$'
 			let t = strpart(keymap, 2, strlen(keymap) - 3)
@@ -106,7 +106,7 @@ endfunc
 "----------------------------------------------------------------------
 function! navigator#config#keymap_expand(keymap) abort
 	let keymap = s:keymap_eval(a:keymap)
-	if type(keymap) == v:t_dict
+	if type(keymap) != type({})
 		let previous = keymap
 		let keymap = {}
 		for key in keys(previous)
@@ -203,7 +203,7 @@ function! navigator#config#compile(keymap, opts) abort
 			continue
 		endif
 		let key_code = navigator#charname#get_key_code(key)
-		if type(key_code) == type(v:null)
+		if key_code == ''
 			continue
 		endif
 		let ctx.keys += [key]
