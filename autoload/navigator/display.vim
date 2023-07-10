@@ -441,5 +441,27 @@ function! navigator#display#execute(command) abort
 endfunc
 
 
+"----------------------------------------------------------------------
+" hide cursor
+"----------------------------------------------------------------------
+function! navigator#display#hide_cursor()
+	let s:t_ve = &t_ve
+	let s:guicursor = &guicursor
+	set t_ve=
+	set guicursor=a:Normal
+endfunc
+
+
+"----------------------------------------------------------------------
+" show cursor
+"----------------------------------------------------------------------
+function! navigator#display#show_cursor()
+	if exists('s:t_ve')
+		let &t_ve = s:t_ve
+		let &guicursor = s:guicursor
+	endif
+endfunc
+
+
 " vim: set ts=4 sw=4 tw=78 noet :
 

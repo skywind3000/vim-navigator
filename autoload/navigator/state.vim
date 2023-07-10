@@ -212,7 +212,14 @@ function! navigator#state#open(keymap, opts) abort
 		return []
 	endif
 	redraw
+	let hide_cursor = get(opts, 'hide_cursor', 1)
+	if hide_cursor
+		call navigator#display#hide_cursor()
+	endif
 	let key_array = navigator#state#select(a:keymap, [])
+	if hide_cursor
+		call navigator#display#show_cursor()
+	endif
 	call navigator#state#close()
 	return key_array
 endfunc

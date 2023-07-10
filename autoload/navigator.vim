@@ -29,6 +29,7 @@ let s:config_name = {
 			\ 'popup_position': 'bottom',
 			\ 'popup_width': '65%',
 			\ 'popup_height': '40%',
+			\ 'hide_cursor': 0,
 			\ }
 
 
