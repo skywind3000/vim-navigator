@@ -25,6 +25,10 @@ let s:config_name = {
 			\ 'vertical': 0,
 			\ 'position': 'botright',
 			\ 'splitmod': '',
+			\ 'popup': 0,
+			\ 'popup_position': 'bottom',
+			\ 'popup_width': '65%',
+			\ 'popup_height': '40%',
 			\ }
 
 
@@ -42,7 +46,7 @@ function! navigator#open(keymap, prefix, ...) abort
 		endif
 	endfor
 	let keymap = navigator#config#keymap_expand(a:keymap)
-	let opts.prefix = a:prefix
+	" let opts.prefix = a:prefix
 	return navigator#state#open(keymap, opts)
 endfunc
 
@@ -60,9 +64,20 @@ function! navigator#cmd(keymap, prefix, ...) abort
 	if type(hr) == v:t_list
 		let cmd = (len(hr) > 0)? hr[0] : ''
 		try
-			if cmd =~ '^.\+(.*)$'
+			if cmd =~ '^[a-zA-Z0-9_#]\+(.*)$'
+				" echom "cmd1: " . cmd
 				exec 'call ' . cmd
+			elseif cmd =~ '^<key>'
+				let keys = strpart(cmd, 5)
+				call feedkeys(keys)
+			elseif cmd =~ '^@'
+				let keys = strpart(cmd, 1)
+				call feedkeys(keys)
+			elseif cmd =~ '^<plug>'
+				let keys = strpart(cmd, 6)
+				call feedkeys("\<plug>" . keys)
 			else
+				" echom "cmd2: " . cmd
 				exec cmd
 			endif
 		catch

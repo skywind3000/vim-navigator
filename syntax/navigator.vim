@@ -76,23 +76,23 @@ function! s:color_item(text, pos, width, y) abort
 	let pos = a:pos + skip + 1
 	let endup = a:pos + a:width + 1
 	if head[0] == '[' && head[size - 1] == ']'
-		exec s:high_region('Normal', y, pos + 0, y, pos + 1, 0)
-		exec s:high_region('Special', y, pos + 1, y, pos + 1 + size - 2, 0)
-		exec s:high_region('Normal', y, pos - 1 + size, y, pos + 0 + size, 0)
+		exec s:high_region('NavigatorBracket', y, pos + 0, y, pos + 1, 0)
+		exec s:high_region('NavigatorKey', y, pos + 1, y, pos + 1 + size - 2, 0)
+		exec s:high_region('NavigatorBracket', y, pos - 1 + size, y, pos + 0 + size, 0)
 	else
-		exec s:high_region('Special', y, pos + 0, y, pos + size, 0)
+		exec s:high_region('NavigatorKey', y, pos + 0, y, pos + size, 0)
 	endif
 	let pos += size + 1
 	if s:icon_separator != ''
 		let iw = strlen(s:icon_separator)
-		exec s:high_region('Type', y, pos, y, pos + iw, 1)
+		exec s:high_region('NavigatorSeparator', y, pos, y, pos + iw, 1)
 		let pos += iw + 1
 	endif
 	let mark = a:text[pos - 1]
 	if mark != '+'
-		exec s:high_region('Function', y, pos, y, endup, 0)
+		exec s:high_region('NavigatorItem', y, pos, y, endup, 0)
 	else
-		exec s:high_region('Number', y, pos, y, endup, 0)
+		exec s:high_region('NavigatorGroup', y, pos, y, endup, 0)
 	endif
 endfunc
 
@@ -102,5 +102,20 @@ call s:color_buffer()
 
 " echo s:position
 " echo s:icon_separator
+
+
+"----------------------------------------------------------------------
+" highlighting
+"----------------------------------------------------------------------
+highlight default link NavigatorKey Special
+highlight default link NavigatorBracket Normal
+highlight default link NavigatorSeparator Type
+highlight default link NavigatorItem Number
+highlight default link NavigatorGroup Function
+
+highlight default link NavigatorPopup Normal
+highlight default link NavigatorFoot StatusLine
+highlight default link NavigatorHead StatusLineNC
+
 
 

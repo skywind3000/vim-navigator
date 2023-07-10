@@ -102,8 +102,8 @@ let s:char_display = {
 "----------------------------------------------------------------------
 function! navigator#charname#get_key_code(key)
 	let key = a:key
-	if type(key) == v:t_none
-		return v:none
+	if type(key) == type(v:null)
+		return v:null
 	elseif len(key) == 1
 		if has_key(s:special_names, key)
 			return key
@@ -116,7 +116,7 @@ function! navigator#charname#get_key_code(key)
 			return s:special_keys[lowkey]
 		endif
 	endif
-	return v:none
+	return v:null
 endfunc
 
 
@@ -124,7 +124,7 @@ endfunc
 " get a proper key-name from key-code
 "----------------------------------------------------------------------
 function! navigator#charname#get_key_name(code)
-	return get(s:special_names, a:code, v:none)
+	return get(s:special_names, a:code, v:null)
 endfunc
 
 
@@ -133,7 +133,7 @@ endfunc
 "----------------------------------------------------------------------
 function! navigator#charname#get_key_label(key)
 	let code = navigator#charname#get_key_code(a:key)
-	if type(code) == v:t_none
+	if type(code) == type(v:null)
 		return 'BADKEY'
 	endif
 	if !has_key(s:special_names, code)
@@ -151,7 +151,7 @@ function! navigator#charname#sort(keys)
 	let buckets = {}
 	for key in a:keys
 		let label = navigator#charname#get_key_label(key)
-		if type(label) == v:t_none
+		if type(label) == type(v:null)
 			continue
 		elseif label == '' && type(label) == v:t_string
 			continue

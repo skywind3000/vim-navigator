@@ -223,9 +223,23 @@ function! navigator#test#test6() abort
 	let keymap = deepcopy(s:navigator_keymap)
 	let keymap = navigator#config#keymap_expand(keymap)
 	let opts = {}
-	let opts.vertical = 1
-	" let opts.position = 'topleft'
+	let opts.vertical = 0
+	let opts.position = 'topleft'
 	let opts.max_width = 35
+	" let opts.bracket = 1
+	" let opts.icon_separator = ''
+	let ch = navigator#state#open(keymap, opts)
+	return ch
+endfunc
+
+function! navigator#test#test7() abort
+	let keymap = deepcopy(s:navigator_keymap)
+	let keymap = navigator#config#keymap_expand(keymap)
+	let opts = {}
+	let opts.popup = 1
+	let opts.popup_position = 'top'
+	let opts.max_width = 35
+	" let opts.padding = [2, 2, 2, 2]
 	" let opts.bracket = 1
 	" let opts.icon_separator = ''
 	let ch = navigator#state#open(keymap, opts)

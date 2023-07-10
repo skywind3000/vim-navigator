@@ -16,7 +16,7 @@ let s:default_config = {
 			\ 'icon_separator': '=>',
 			\ 'icon_group': '+',
 			\ 'icon_breadcrumb': '>',
-			\ 'max_height': 20,
+			\ 'max_height': 10,
 			\ 'min_height': 5,
 			\ 'max_width': 45,
 			\ 'min_width': 20,
@@ -24,6 +24,10 @@ let s:default_config = {
 			\ 'padding': [2, 0, 2, 0],
 			\ 'spacing': 3,
 			\ 'vertical': 0,
+			\ 'popup': 0,
+			\ 'popup_width': '65%',
+			\ 'popup_height': '40%',
+			\ 'popup_position': 'bottom',
 			\ 'position': 'botright',
 			\ 'splitmod': '',
 			\ }
@@ -35,7 +39,7 @@ let s:default_config = {
 let s:position_dict = {
 			\ 'leftabove': 0, 'aboveleft': 0, 'lefta': 0, 'abo': 0,
 			\ 'rightbelow': 1, 'belowright': 1, 'rightb': 1, 'bel': 1,
-			\ 'topleft': 2, 'to': 2,
+			\ 'topleft': 2, 'to': 2, 'top': 2,
 			\ 'botright': 3, 'bo': 3, 'bottom': 3, 'rightbot': 3,
 			\ }
 
@@ -46,7 +50,7 @@ let s:position_dict = {
 function! navigator#config#get(opts, key) abort
 	if type(a:opts) == v:t_dict
 		let opts = a:opts
-	elseif type(a:opts) == v:t_none
+	elseif type(a:opts) == type(v:null)
 		let opts = get(g:, 'quickui_navigator', {})
 	endif
 	return get(opts, a:key, s:default_config[a:key])
@@ -144,10 +148,12 @@ endfunc
 function! navigator#config#position(what) abort
 	let pos = get(s:position_dict, a:what, 3)
 	let position = 'botright'
-	if pos <= 1
+	if pos < 2
 		let position = (pos == 0)? 'leftabove' : 'rightbelow'
-	else
+	elseif pos < 4
 		let position = (pos == 2)? 'topleft' : 'botright'
+	else
+		let position = 'center'
 	endif
 	return position
 endfunc
@@ -159,8 +165,8 @@ endfunc
 function! navigator#config#visit(keymap, path) abort
 	let keymap = a:keymap
 	let path = a:path
-	if type(keymap) == v:t_none || type(path) == v:t_none
-		return v:none
+	if type(keymap) == type(v:null) || type(path) == type(v:null)
+		return v:null
 	endif
 	let index = 0
 	while 1
@@ -170,7 +176,7 @@ function! navigator#config#visit(keymap, path) abort
 		endif
 		let key = path[index]
 		if !has_key(keymap, key)
-			return v:none
+			return v:null
 		endif
 		let keymap = keymap[key]
 		let index += 1
@@ -197,7 +203,7 @@ function! navigator#config#compile(keymap, opts) abort
 			continue
 		endif
 		let key_code = navigator#charname#get_key_code(key)
-		if type(key_code) == v:t_none
+		if type(key_code) == type(v:null)
 			continue
 		endif
 		let ctx.keys += [key]
@@ -275,8 +281,47 @@ function! navigator#config#compile(keymap, opts) abort
 	let ctx.vertical = navigator#config#get(a:opts, 'vertical')
 	let ctx.position = navigator#config#get(a:opts, 'position')
 	let ctx.position = navigator#config#position(ctx.position)
+	let ctx.popup = navigator#config#get(a:opts, 'popup')
+	let ctx.popup_position = navigator#config#get(a:opts, 'popup_position')
 	return ctx
 endfunc
 
+
+"----------------------------------------------------------------------
+" string to integer
+"----------------------------------------------------------------------
+function! navigator#config#atoi(text, maxvalue) abort
+	let t = a:text
+	if type(t) == 0
+		return t
+	elseif t =~ '%$'
+		let x = str2nr(t)
+		let y = (x * a:maxvalue) / 100
+		return (type(y) != 5)? y : float2nr(y)
+	else
+		return str2nr(t)
+	endif
+endfunc
+
+
+"----------------------------------------------------------------------
+" initialize opts
+"----------------------------------------------------------------------
+function! navigator#config#init(opts) abort
+	let opts = deepcopy(a:opts)
+	let opts.vertical = navigator#config#get(a:opts, 'vertical')
+	let opts.position = navigator#config#get(a:opts, 'position')
+	let opts.position = navigator#config#position(opts.position)
+	let opts.popup = navigator#config#get(a:opts, 'popup')
+	let opts.popup_position = navigator#config#get(a:opts, 'popup_position')
+	let w = navigator#config#get(opts, 'popup_width')
+	let h = navigator#config#get(opts, 'popup_height')
+	let opts.popup_width = navigator#config#atoi(w, &columns)
+	let opts.popup_height = navigator#config#atoi(h, &lines)
+	if index(['center', 'top'], opts.popup_position) < 0
+		let opts.popup_position = 'bottom'
+	endif
+	return opts
+endfunc
 
 
