@@ -109,3 +109,39 @@ function! navigator#utils#window_resize(wid, width, height) abort
 endfunc
 
 
+"----------------------------------------------------------------------
+" check quickfix
+"----------------------------------------------------------------------
+function! navigator#utils#quickfix_check() abort
+	for i in range(winnr('$'))
+		let bid = winbufnr(i + 1)
+		if getbufvar(bid, '&buftype') == 'quickfix'
+			return winheight(i + 1)
+		endif
+	endfor
+	return 0
+endfunc
+
+
+"----------------------------------------------------------------------
+" close quickfix
+"----------------------------------------------------------------------
+function! navigator#utils#quickfix_close() abort
+	call navigator#utils#save_view()
+	cclose
+	call navigator#utils#restore_view()
+endfunc
+
+
+"----------------------------------------------------------------------
+" open quickfix
+"----------------------------------------------------------------------
+function! navigator#utils#quickfix_open(...) abort
+	let wid = winnr()
+	call navigator#utils#save_view()
+	exec 'keepalt botright copen ' . ((a:0 > 0)? a:1 : '')
+	call navigator#utils#restore_view()
+	exec printf('keepalt %dwincmd w', wid)
+endfunc
+
+

@@ -4,6 +4,6 @@
 
 ```VimL
 Plug 'skywind3000/vim-quickui'
-Plug 'skywind3000/vim-navigator'
+Plug 'skywind3000/vim-quickui-navigator'
 ```
 

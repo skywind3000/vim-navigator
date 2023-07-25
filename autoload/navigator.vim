@@ -48,7 +48,19 @@ function! navigator#open(keymap, prefix, ...) abort
 	endfor
 	let keymap = navigator#config#keymap_expand(a:keymap)
 	" let opts.prefix = a:prefix
-	return navigator#state#open(keymap, opts)
+	let qf = 0
+	if navigator#utils#quickfix_check()
+		let qf = 1
+		if get(opts, 'popup', 0) == 0
+			if get(opts, 'vertical') == 0
+				call navigator#utils#quickfix_close()
+			endif
+		endif
+	endif
+	let hr = navigator#state#open(keymap, opts)
+	if qf != 0
+	endif
+	return hr
 endfunc
 
 
