@@ -93,9 +93,11 @@ function! navigator#cmd(keymap, prefix, ...) abort
 				exec 'call ' . cmd
 			elseif cmd =~ '^<key>'
 				let keys = strpart(cmd, 5)
+				let keys = navigator#charname#mapname(keys)
 				call feedkeys(keys)
 			elseif cmd =~ '^@'
 				let keys = strpart(cmd, 1)
+				let keys = navigator#charname#mapname(keys)
 				call feedkeys(keys)
 			elseif cmd =~ '^<plug>'
 				let keys = strpart(cmd, 6)
@@ -147,9 +149,11 @@ function! navigator#start(visual, bang, args, line1, line2, count) abort
 				exec printf('%scall %s', range, cmd)
 			elseif cmd =~ '^<key>'
 				let keys = strpart(cmd, 5)
+				let keys = navigator#charname#mapname(keys)
 				call feedkeys(keys)
 			elseif cmd =~ '^@'
 				let keys = strpart(cmd, 1)
+				let keys = navigator#charname#mapname(keys)
 				call feedkeys(keys)
 			elseif cmd =~ '^<plug>'
 				let keys = strpart(cmd, 6)
@@ -165,6 +169,7 @@ function! navigator#start(visual, bang, args, line1, line2, count) abort
 		endtry
 	elseif prefix != ''
 		let keys = s:key_translate([prefix] + path)
+		let keys = navigator#charname#mapname(keys)
 		call feedkeys(keys)
 	endif
 endfunc
