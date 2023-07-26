@@ -11,18 +11,9 @@
 "----------------------------------------------------------------------
 " Navigator
 "----------------------------------------------------------------------
-command! -nargs=* Navigator call s:Navigator(<q-args>) 
-function! s:Navigator(prefix)
-	if !exists('g:navigator')
-		echohl ErrorMsg
-		echo 'g:navigator is not defined'
-		echohl None
-		return 0
-	endif
-	let t = get(g:, 'navigator', {})
-	call navigator#cmd(t, a:prefix)
-	" echom "> prefix: " . a:prefix
-	return 0
-endfunc
+command! -nargs=1 -range=0 Navigator 
+			\ call navigator#start(0, 0, <q-args>, <line1>, <line2>, <count>)
 
+command! -nargs=1 -range=0 NavigatorVisual
+			\ call navigator#start(1, 0, <q-args>, <line1>, <line2>, <count>)
 

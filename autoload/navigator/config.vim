@@ -28,6 +28,7 @@ let s:default_config = {
 			\ 'popup_width': '65%',
 			\ 'popup_height': '40%',
 			\ 'popup_position': 'bottom',
+			\ 'popup_border': 1,
 			\ 'position': 'botright',
 			\ 'splitmod': '',
 			\ }

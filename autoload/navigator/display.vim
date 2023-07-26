@@ -28,6 +28,7 @@ let s:popup_main = {}
 let s:popup_foot = {}
 let s:popup_head = {}
 let s:popup_split = {}
+let s:popup_background = {}
 
 
 "----------------------------------------------------------------------
@@ -205,13 +206,15 @@ endfunc
 "----------------------------------------------------------------------
 function! s:popup_open() abort
 	let position = s:config('popup_position')
+	let border = s:config('popup_border')
 	let min_height = s:config('min_height')
 	let min_width = s:config('min_width')
 	let opts = {}
 	let opts.color = 'NavigaorPopup'
 	let opts.bordercolor = opts.color
+	let opts.z = 40
 	if position == 'bottom'
-		let opts.x = 1
+		let opts.x = 0
 		let opts.y = &lines - min_height - 2
 		let opts.w = &columns
 		let opts.h = min_height
@@ -232,10 +235,12 @@ function! s:popup_open() abort
 	call s:popup_main.open([], opts)
 	let s:popup_foot = quickui#window#new()
 	let s:popup_head = quickui#window#new()
+	let s:popup_background = quickui#window#new()
+	let op = {}
+	let op.w = opts.w
+	let op.h = 1
+	let op.z = 40
 	if position == 'bottom'
-		let op = {}
-		let op.w = opts.w
-		let op.h = 1
 		let op.x = 0
 		let op.y = &lines - 2
 		let op.color = 'NavigatorFoot'
@@ -246,9 +251,6 @@ function! s:popup_open() abort
 		let op.bordercolor = op.color
 		call s:popup_head.open([], op)
 	elseif position == 'top'
-		let op = {}
-		let op.w = opts.w
-		let op.h = 1
 		let op.x = 0
 		let op.y = opts.h + 1
 		let op.color = 'NavigatorFoot'
@@ -259,9 +261,6 @@ function! s:popup_open() abort
 		let op.bordercolor = op.color
 		call s:popup_head.open([], op)
 	else
-		let op = {}
-		let op.w = opts.w
-		let op.h = 1
 		let op.x = s:popup_main.x
 		let op.y = s:popup_main.y + s:popup_main.h
 		" echom printf("%d/%d %d", opts.y, opts.h, op.y)
@@ -272,6 +271,18 @@ function! s:popup_open() abort
 		let op.color = 'NavigatorHead'
 		let op.bordercolor = op.color
 		call s:popup_head.open([''], op)
+	endif
+	if position == 'center' && border > 0
+		let op = {}
+		let op.w = s:popup_main.w + 2
+		let op.h = s:popup_main.h + 4
+		let op.x = s:popup_main.x - 1
+		let op.y = s:popup_main.y - 1
+		let op.z = 38
+		let op.color = 'NavigatorBorder'
+		let op.bordercolor = op.color
+		let back = quickui#utils#make_border(op.w - 2, op.h - 2, border, '')
+		call s:popup_background.open(back, op)
 	endif
 endfunc
 
@@ -284,6 +295,7 @@ function! s:popup_close() abort
 	call s:popup_main.close()
 	call s:popup_foot.close()
 	call s:popup_head.close()
+	call s:popup_background.close()
 endfunc
 
 
@@ -292,6 +304,7 @@ endfunc
 "----------------------------------------------------------------------
 function! s:popup_resize(width, height) abort
 	let position = s:config('popup_position')
+	let border = s:config('popup_border')
 	if position == 'bottom'
 		call s:popup_main.resize(s:popup_main.w, a:height)
 		call s:popup_main.move(0, &lines - a:height - 2)
@@ -304,10 +317,16 @@ function! s:popup_resize(width, height) abort
 		" call s:popup_main.resize(s:popup
 		call s:popup_head.move(s:popup_main.x, s:popup_main.y - 1)
 		call s:popup_foot.move(s:popup_main.x, s:popup_main.y + s:popup_main.h)
+		if border > 0
+			call s:popup_background.move(s:popup_main.x - 1, s:popup_main.y - 2)
+		endif
 	endif
 	call s:popup_main.show(1)
 	call s:popup_foot.show(1)
 	call s:popup_head.show(1)
+	if position == 'center' && border > 0
+		call s:popup_background.show(1)
+	endif
 endfunc
 
 
