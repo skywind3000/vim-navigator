@@ -9,7 +9,7 @@ As a result, I've made the decision to create my own plugin, which is similar to
 ## Features
 
 - Better layout: each column can have different width. Columns with short texts will not occupy a lot of space.
-- Customizable: separator style and visibility, bracket (around key character) visibility, spacing, padding, and position.
+- Fully customizable: separator style and visibility, bracket (around key character) visibility, spacing, padding, highlighting, and position.
 - Zero timeout mode and adaptive window size.
 - Buffer local keymaps for different file types.
 - Unambiguity syntax to define a command or key sequence.
