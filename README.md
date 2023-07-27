@@ -135,6 +135,8 @@ let keymap.w = {
 	\ }
 ```
 
+This is how `group` works.
+
 ## Runtime evaluation
 
 Configuration can be generated at runtime by providing a function name like this:
@@ -156,6 +158,9 @@ The function will be called each time before opening Navigator window, it should
 
 This allows you generate context sensitive keymaps.
 
+## Customize
+
+...
 
 ## TODO
 
