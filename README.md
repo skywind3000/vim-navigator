@@ -2,7 +2,7 @@
 
 ![](https://skywind3000.github.io/images/p/misc/2023/vim-menu2.png)
 
-Vim has got several **whichkey** like plugins for keymap hints and I've tried each of them one by one and found them lacking in some way.
+Vim has got several **whichkey** like plugins for keymap hints and I've tried each of them one by one and found them always lacking in some way.
 
 As a result, I've made the decision to create my own plugin, which is similar to whichkey but with some exciting enhancements.
 
