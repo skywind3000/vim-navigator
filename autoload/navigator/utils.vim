@@ -145,3 +145,30 @@ function! navigator#utils#quickfix_open(...) abort
 endfunc
 
 
+"----------------------------------------------------------------------
+" merge dictionary B into A
+"----------------------------------------------------------------------
+function! navigator#utils#merge(A, B) abort
+	let A = a:A
+	let B = a:B
+	let t_dict = type({})
+	for bkey in keys(B)
+		if !has_key(A, bkey)
+			let A[bkey] = B[bkey]
+			continue
+		endif
+		let t_a = type(A[bkey])
+		let t_b = type(B[bkey])
+		if t_a != t_dict && t_b != t_dict
+			let A[bkey] = B[bkey]
+		elseif t_a == t_dict && t_b == t_dict
+			if bkey != 'prefix' && bkey != 'config'
+				call navigator#utils#merge(A[bkey], B[bkey])
+			endif
+		endif
+	endfor
+	return A
+endfunc
+
+
+

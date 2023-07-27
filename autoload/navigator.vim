@@ -126,7 +126,25 @@ function! navigator#start(visual, bang, args, line1, line2, count) abort
 	let line1 = a:line1
 	let line2 = a:line2
 	let opts = {}
-	let keymap = eval(a:args)
+	if a:bang == 0
+		let keymap = eval(a:args)
+	else
+		let oname = (a:args =~ '^g:')? strpart(a:args, 2) : (a:args)
+		let gname = 'g:' . oname
+		let keymap = {}
+		if exists(gname)
+			let keymap = eval(gname)
+			let keymap = navigator#config#keymap_expand(keymap)
+			let keymap = deepcopy(keymap)
+		endif
+		for name in ['b:' . oname, 't:' . oname]
+			if exists(name)
+				let map2 = eval(name)
+				let map2 = navigator#config#keymap_expand(map2)
+				let keymap = navigator#utils#merge(keymap, map2)
+			endif
+		endfor
+	endif
 	let prefix = get(keymap, 'prefix', '')
 	let path = navigator#open(keymap, prefix, opts)
 	if path == []
@@ -168,6 +186,7 @@ function! navigator#start(visual, bang, args, line1, line2, count) abort
 			echohl None
 		endtry
 	elseif prefix != ''
+		let prefix = navigator#charname#mapname(prefix)
 		let keys = s:key_translate([prefix] + path)
 		let keys = navigator#charname#mapname(keys)
 		call feedkeys(keys)
