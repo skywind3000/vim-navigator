@@ -63,7 +63,7 @@ let g:navigator.m = ['<plug>(easymotion-bd-w)', 'easy-motion-bd-w']
 let g:navigator.n = ['<plug>(easymotion-s)', 'easy-motion-s']
 ```
 
-By default, I prefer not to use leader key timeout method to trigger Navigator, let's assign a new key, hit `<tab>` twice:
+By default, I prefer not to use leader key timeout method to trigger Navigator, let's assign a dedicated key, hit `<tab>` twice:
 
 ```VimL
 nnoremap <silent><tab><tab> :Navigator g:navigator<cr>
