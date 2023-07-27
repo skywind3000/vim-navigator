@@ -2,9 +2,7 @@
 
 ![](https://skywind3000.github.io/images/p/misc/2023/vim-menu2.png)
 
-Vim has got several **whichkey** like plugins for keymap hints and I've tried each of them one by one and found them always lacking in some way.
-
-As a result, I've made the decision to create my own plugin, which is similar to whichkey but with some exciting enhancements.
+Vim has got several **whichkey** like plugins for keymap hints and I've tried each of them one by one and found them always lacking in some way. As a result, I've made the decision to create my own plugin, which is similar to whichkey but with some exciting enhancements.
 
 ## Features
 
@@ -15,7 +13,7 @@ As a result, I've made the decision to create my own plugin, which is similar to
 - Unambiguity syntax to define a command or key sequence.
 - Runtime keymap generation, items can be decided at runtime.
 - Can use popup for vim 8.2+ and floatwin for nvim 0.6.0+
-- Legacy Vim compatiblity (only requires Vim 7.4.2364).
+- Legacy Vim compatibility (only requires Vim 7.4.2364).
 
 ## Installation
 
@@ -62,13 +60,13 @@ let g:navigator.m = ['<plug>(easymotion-bd-w)', 'easy-motion-bd-w']
 let g:navigator.n = ['<plug>(easymotion-s)', 'easy-motion-s']
 ```
 
-By default, I prefer not to use leader key timeout method to trigger Navigator, let's assign a dedicated key, hit `<tab>` twice:
+By default, I prefer not to use leader key timeout method to trigger Navigator. Let's assign a dedicated key, hit `<tab>` twice:
 
 ```VimL
 nnoremap <silent><tab><tab> :Navigator g:navigator<cr>
 ```
 
-Command `:Navigator` will find the following variable `g:navigator` and read keymap configuration from it.
+Command `:Navigator` will find the following variable `g:navigator` and read its keymap configuration.
 
 ## Buffer local keymaps
 
@@ -90,7 +88,7 @@ nnoremap <silent><tab><tab> :Navigator! navigator<cr>
 
 Different from the previous command, here we have a `!` and use `navigator` instead of `g:navigator` to indicate variable name.
 
-Because `:Navigator!` will find variables named `navigator` in both global scope and buffer local scope (`g:navigator` and `b:navigator`) and evaluate them then merge the result into one dictionary.
+Because `:Navigator!` will find variables named `navigator` in both global scope and buffer local scope (`g:navigator` and `b:navigator`) and evaluate them, then merge the result into one dictionary.
 
 ## Keybinding
 
