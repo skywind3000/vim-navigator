@@ -9,7 +9,7 @@ As a result, I've made the decision to create my own plugin, which is similar to
 ## Features
 
 - Better layout: each column can have different width. Columns with short texts will not occupy a lot of space.
-- Full customizable: separator style and visibility, bracket (around key character) visibility, and position.
+- Full customizable: separator style and visibility, bracket (around key character) visibility, spacing, padding, and position.
 - Zero timeout mode.
 - Adaptive window size.
 - Buffer local keymaps for different file types.
@@ -92,6 +92,18 @@ nnoremap <silent><tab><tab> :Navigator! navigator<cr>
 Different from the previous command, here we have a `!` and use `navigator` instead of `g:navigator` to indicate variable name.
 
 Because `:Navigator!` will find variables named `navigator` in both global scope and buffer local scope (`g:navigator` and `b:navigator`) and evaluate them then merge the result into one dictionary.
+
+## Keybinding
+
+| Key | Action |
+|-|-|
+| `<c-j>` | next page |
+| `<c-k>` | previous page |
+| `<PageDown>` | next page |
+| `<PageUp>` | previous page |
+| `<bs>` | return to parent level |
+| `<esc>` | exit navigator |
+
 
 ## Specification
 
