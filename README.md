@@ -76,7 +76,7 @@ Restart your vim and hit `<tab>` twice, you may see the Navigator window in the 
 
 ![](https://skywind3000.github.io/images/p/misc/2023/vim-menu5.png)
 
-All the items defined previously will list in the navigator window, you can press a key to execute its command or ESC to quit without doing anything.
+All the items defined previously will list in the navigator window, you can press a key to execute its command or enter a sub-group or ESC to quit without doing anything.
 
 ## Commands
 
