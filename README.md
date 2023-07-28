@@ -19,7 +19,7 @@ Vim has got several **whichkey** like plugins for keymap hints and I've tried ea
 
 ```VimL
 Plug 'skywind3000/vim-quickui'
-Plug 'skywind3000/vim-quickui-navigator'
+Plug 'skywind3000/vim-navigator'
 ```
 
 [vim-quickui](https://github.com/skywind3000/vim-quickui) is required, because it provides unified API to access popup in Vim and floatwin in NVim.
