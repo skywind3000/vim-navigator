@@ -250,7 +250,11 @@ This allows you generate context sensitive keymaps.
 
 ## TODO
 
-- Documentation and vim help file.
+- [ ] Polish documentation.
+- [ ] Vim help file.
+- [ ] Preset keymaps.
+
+
 
 ## Credit
 
