@@ -22,7 +22,11 @@ Plug 'skywind3000/vim-quickui'
 Plug 'skywind3000/vim-quickui-navigator'
 ```
 
-## Configuration
+[vim-quickui](https://github.com/skywind3000/vim-quickui) is required, because it provides unified API to access popup in Vim and floatwin in NVim.
+
+## Quick start
+
+Put this in you `.vimrc`:
 
 ```VimL
 " initialize global keymap and declare prefix key
@@ -80,17 +84,45 @@ autocmd FileType c,cpp let b:navigator = g:_navigator_cpp
 autocmd FileType python let b:navigator = b:_navigator_python
 ```
 
-And run `:Navigator` command with a `!` (bang):
+And run `:Navigator` command and replace the original varname `g:navigator` with `*:navigator`
 
 ```VimL
-nnoremap <silent><tab><tab> :Navigator! navigator<cr>
+nnoremap <silent><tab><tab> :Navigator *:navigator<cr>
 ```
 
-Different from the previous command, here we have a `!` and use `navigator` instead of `g:navigator` to indicate variable name.
+Different from the previous command, here we have a `*:` before the variable name. After that `:Navigator` will find variables named `navigator` in both global scope and buffer local scope (`g:navigator` and `b:navigator`) and evaluate them, then merge the result into one dictionary.
 
-Because `:Navigator!` will find variables named `navigator` in both global scope and buffer local scope (`g:navigator` and `b:navigator`) and evaluate them, then merge the result into one dictionary.
+## Commands
+
+Default command:
+
+```VimL
+:Navigator {varname}
+```
+
+This command will open navigator window and read keymap from `{varname}`. So if you have your navigator keymap in the variable `g:my_keymap`, the command `:Navigator g:my_keymap` will read keymap from it.
+
+Visual mode command:
+
+```VimL
+:NavigatorVisual {varname}
+```
+
+Same as `:Navigator` command but dedicated for visual mode, and can be used with `vmap` or `vnoremap`:
+
+```VimL
+vnoremap <silent><tab><tab> :NavigatorVisual g:keymap_visual<cr>
+```
+
+The `{varname}` in both `:Navigator` and `:NavigatorVisual` is a standard VimScript variable name with a little extension: if the varname starts with a star and a colon (`*:`), navigator will search both global scope (`g:`) and buffer local scope (`g:`) with the same variable name.
 
 ## Keybinding
+
+Once Navigator window is open,
+
+![](https://skywind3000.github.io/images/p/misc/2023/vim-menu3.png)
+
+it accepts these keybinding:
 
 | Key | Action |
 |-|-|
@@ -101,13 +133,19 @@ Because `:Navigator!` will find variables named `navigator` in both global scope
 | `<bs>` | return to parent level |
 | `<esc>` | exit navigator |
 
+If there are too many items cannot be displayed in one window, they will be splited into different pages. From the left bottom corner, you will see:
 
-## Specification
+    (page 1/1)
+
+It represents the total page number and current page index. 
+
+
+## Configuration
 
 Initialize an empty keymap configuration:
 
 ```vimL
-let keymap = {'prefix': "<space>"}
+let g:keymap = {'prefix': "<space>"}
 ```
 
 You can describe the prefix keys like this, but it is optional.
@@ -115,7 +153,7 @@ You can describe the prefix keys like this, but it is optional.
 After that you can defined an item:
 
 ```VimL
-let keymap.o = [':tabonly', 'close-other-tabpage']
+let g:keymap.o = [':tabonly', 'close-other-tabpage']
 ```
 
 Each item is a list of command and description, where the first element represents the command. For convenience, the command has several forms:
@@ -124,13 +162,13 @@ Each item is a list of command and description, where the first element represen
 |-|-|-|
 | `:` | Ex command | `:wincmd p` |
 | `<key>` | Key sequence | `<key><c-w>p` (this will feed `<c-w>p` to vim) |
-| `^[a-zA-Z_0-9]+(.*)$` | Function call | `MyFunction()` |
+| `^[a-zA-Z0-9_#]\+(.*)$` | Function call | `MyFunction()` |
 | `<plug>` | Plug trigger | `<plug>(easymotion-bd-w)` |
 
 A group is a subset to hold items and child groups:
 
 ```VimL
-let keymap.w = {
+let g:keymap.w = {
     \ 'name': '+window',
 	\ 'p': ['wincmd p', 'jump-previous-window'],
 	\ 'h': ['wincmd h', 'jump-left-window'],
@@ -144,7 +182,21 @@ let keymap.w = {
 	\ }
 ```
 
-This is how `group` works.
+In the "Quick start" section, we defined a `g:navigator` variable to store keymaps and paired with the command:
+
+```VimL
+:Navigator g:navigator
+```
+
+Here we use another variable `g:keymap` so its command will be:
+
+```VimL
+:Navigator g:keymap
+```
+
+## Visual mode
+
+...
 
 ## Runtime evaluation
 
