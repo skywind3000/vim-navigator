@@ -72,7 +72,11 @@ nnoremap <silent><tab><tab> :Navigator g:navigator<cr>
 
 Command `:Navigator` will find the following variable `g:navigator` and read its keymap configuration.
 
-Restart your vim and hit `<tab>` twice, you may see the Navigator window.
+Restart your vim and hit `<tab>` twice, you may see the Navigator window in the screen bottom:
+
+![](https://skywind3000.github.io/images/p/misc/2023/vim-menu4.png)
+
+
 
 ## Commands
 
