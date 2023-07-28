@@ -287,6 +287,7 @@ There can be multiple navigator keymaps existing simultaneously with different w
 
 ## Credit
 
+- [vim-quickui](https://github.com/skywind3000/vim-quickui)
 - [vim-which-key](https://github.com/liuchengxu/vim-which-key)
 
 
