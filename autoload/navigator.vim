@@ -68,6 +68,21 @@ function! navigator#open(keymap, prefix, ...) abort
 			endfor
 		endif
 	endif
+	if get(opts, 'popup', 0) != 0
+		let has_popup = exists('*popup_create') && v:version >= 800
+		let has_floatwin = has('nvim-0.4')
+		if has('nvim') == 0 && has_popup == 0
+			echohl ErrorMsg
+			echom 'Navigator Error: popup is not available in this version'
+			echohl None
+			return []
+		elseif has('nvim') && has_floatwin == 0
+			echohl ErrorMsg
+			echom 'Navigator Error: floatwin is not available in this version'
+			echohl None
+			return []
+		endif
+	endif
 	let hr = navigator#state#open(keymap, opts)
 	if qf != 0
 	endif
@@ -91,14 +106,14 @@ function! navigator#cmd(keymap, prefix, ...) abort
 			if cmd =~ '^[a-zA-Z0-9_#]\+(.*)$'
 				" echom "cmd1: " . cmd
 				exec 'call ' . cmd
-			elseif cmd =~ '^<key>'
+			elseif cmd =~# '^<key>'
 				let keys = strpart(cmd, 5)
 				let keys = navigator#charname#mapname(keys)
 				call feedkeys(keys)
-			elseif cmd =~ '^@'
-				let keys = strpart(cmd, 1)
+			elseif cmd =~# '^<KEY>'
+				let keys = strpart(cmd, 5)
 				let keys = navigator#charname#mapname(keys)
-				call feedkeys(keys)
+				call feedkeys(keys, 'n')
 			elseif cmd =~ '^<plug>'
 				let keys = strpart(cmd, 6)
 				call feedkeys("\<plug>" . keys)
@@ -173,14 +188,14 @@ function! navigator#start(visual, bang, args, line1, line2, count) abort
 		try
 			if cmd =~ '^[a-zA-Z0-9_#]\+(.*)$'
 				exec printf('%scall %s', range, cmd)
-			elseif cmd =~ '^<key>'
+			elseif cmd =~# '^<key>'
 				let keys = strpart(cmd, 5)
 				let keys = navigator#charname#mapname(keys)
 				call feedkeys(keys)
-			elseif cmd =~ '^@'
-				let keys = strpart(cmd, 1)
+			elseif cmd =~# '^<KEY>'
+				let keys = strpart(cmd, 5)
 				let keys = navigator#charname#mapname(keys)
-				call feedkeys(keys)
+				call feedkeys(keys, 'n')
 			elseif cmd =~ '^<plug>'
 				let keys = strpart(cmd, 6)
 				call feedkeys("\<plug>" . keys)

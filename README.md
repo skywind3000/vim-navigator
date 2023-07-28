@@ -170,6 +170,7 @@ Each item is a list of command and description, where the first element represen
 |-|-|-|
 | `:` | Ex command | `:wincmd p` |
 | `<key>` | Key sequence | `<key><c-w>p` (this will feed `<c-w>p` to vim) |
+| `<KEY>` | Key sequence | `<key><c-w>p` (feed `<c-w>p` without remap) |
 | `^[a-zA-Z0-9_#]\+(.*)$` | Function call | `MyFunction()` |
 | `<plug>` | Plug trigger | `<plug>(easymotion-bd-w)` |
 
