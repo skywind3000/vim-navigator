@@ -76,7 +76,7 @@ Restart your vim and hit `<tab>` twice, you may see the Navigator window in the 
 
 ![](https://skywind3000.github.io/images/p/misc/2023/vim-menu5.png)
 
-All the items defined previously will list in the navigator window, you can press a key to execute its command or enter a sub-group or ESC to quit without doing anything.
+All the items defined previously will be listed in the navigator window, you can press a key to execute its command, enter a sub-group, or press ESC to quit without performing any action.
 
 ## Commands
 
@@ -86,7 +86,7 @@ Default command:
 :Navigator {varname}
 ```
 
-This command will open navigator window and read keymap from `{varname}`. So if you have your navigator keymap in the variable `g:my_keymap`, the command `:Navigator g:my_keymap` will read keymap from it.
+This command will open navigator window and read keymap from `{varname}`. So, if you have your navigator keymap in the variable `g:my_keymap`, the command `:Navigator g:my_keymap` will read keymap from it.
 
 Visual mode command:
 
@@ -100,7 +100,7 @@ Same as `:Navigator` command but dedicated for visual mode, and can be used with
 vnoremap <silent><tab><tab> :NavigatorVisual g:keymap_visual<cr>
 ```
 
-The `{varname}` in both `:Navigator` and `:NavigatorVisual` is a standard VimScript variable name with a little extension: if the varname starts with a star and a colon (`*:`), navigator will search both global scope (`g:`) and buffer local scope (`g:`) with the same variable name.
+The `{varname}` in both `:Navigator` and `:NavigatorVisual` is a standard VimScript variable name with a slight extension: if the `{varname}` starts with a star and a colon (`*:`), navigator will search for the variable name in both the global scope (`g:`) and the buffer local scope (`b:`).
 
 
 ## Buffer local keymaps
