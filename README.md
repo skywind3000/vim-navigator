@@ -72,25 +72,7 @@ nnoremap <silent><tab><tab> :Navigator g:navigator<cr>
 
 Command `:Navigator` will find the following variable `g:navigator` and read its keymap configuration.
 
-## Buffer local keymaps
-
-Just define a `b:navigator` variable for certain buffer:
-
-```VimL
-let g:_navigator_cpp = {...}
-let g:_navigator_python = {...}
-
-autocmd FileType c,cpp let b:navigator = g:_navigator_cpp
-autocmd FileType python let b:navigator = b:_navigator_python
-```
-
-And run `:Navigator` command and replace the original varname `g:navigator` with `*:navigator`
-
-```VimL
-nnoremap <silent><tab><tab> :Navigator *:navigator<cr>
-```
-
-Different from the previous command, here we have a `*:` before the variable name. After that `:Navigator` will find variables named `navigator` in both global scope and buffer local scope (`g:navigator` and `b:navigator`) and evaluate them, then merge the result into one dictionary.
+Restart your vim and hit `<tab>` twice, you may see the Navigator window.
 
 ## Commands
 
@@ -115,6 +97,28 @@ vnoremap <silent><tab><tab> :NavigatorVisual g:keymap_visual<cr>
 ```
 
 The `{varname}` in both `:Navigator` and `:NavigatorVisual` is a standard VimScript variable name with a little extension: if the varname starts with a star and a colon (`*:`), navigator will search both global scope (`g:`) and buffer local scope (`g:`) with the same variable name.
+
+
+## Buffer local keymaps
+
+Just define a `b:navigator` variable for certain buffer:
+
+```VimL
+let g:_navigator_cpp = {...}
+let g:_navigator_python = {...}
+
+autocmd FileType c,cpp let b:navigator = g:_navigator_cpp
+autocmd FileType python let b:navigator = b:_navigator_python
+```
+
+And run `:Navigator` command and replace the original varname `g:navigator` with `*:navigator`
+
+```VimL
+nnoremap <silent><tab><tab> :Navigator *:navigator<cr>
+```
+
+Different from the previous command, here we have a `*:` before the variable name. After that `:Navigator` will find variables named `navigator` in both global scope and buffer local scope (`g:navigator` and `b:navigator`) and evaluate them, then merge the result into one dictionary.
+
 
 ## Keybinding
 
