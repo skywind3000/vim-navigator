@@ -178,11 +178,11 @@ A group is a subset to hold items and child groups:
 ```VimL
 let g:keymap.w = {
     \ 'name': '+window',
-	\ 'p': ['wincmd p', 'jump-previous-window'],
-	\ 'h': ['wincmd h', 'jump-left-window'],
-	\ 'j': ['wincmd j', 'jump-belowing-window'],
-	\ 'k': ['wincmd k', 'jump-aboving-window'],
-	\ 'l': ['wincmd l', 'jump-right-window'],
+	\ 'p': [':wincmd p', 'jump-previous-window'],
+	\ 'h': [':wincmd h', 'jump-left-window'],
+	\ 'j': [':wincmd j', 'jump-belowing-window'],
+	\ 'k': [':wincmd k', 'jump-aboving-window'],
+	\ 'l': [':wincmd l', 'jump-right-window'],
 	\ 'x': {
 	\       'name': '+management',
 	\       'o': ['wincmd o', 'close-other-windows'],
