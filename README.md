@@ -229,7 +229,24 @@ This allows you generate context sensitive keymaps.
 
 ## Customize
 
-...
+| Global | Local | Default Value | Description |
+|-|-|-|-|
+| g:navigator_icon_separator | icon_separator | `'=>'` | separator style, can be set to an empty string |
+| g:navigator_bracket | bracket | `0` | set to 1 to display brackets around key character |
+| g:navigator_spacing | spacing | `3` | horizontal spaces between items |
+| g:navigator_padding | padding | `[2,0,2,0]` | left, top, right, bottom padding to the window edge |.
+| g:navigator_vertical | vertical | `0` | set to 1 to use a vertical split window |
+| g:navigator_position | position | `'botright'` | split position |
+| g:navigator_max_height | max_height | `20` | maximum horizontal window height |
+| g:navigator_min_height | min_height | `5` | minimal horizontal window height |
+| g:navigator_max_width | max_width | `60` | maxmum vertical window width |
+| g:navigator_max_width | max_width | `20` | minimal vertical window width |
+| g:navigator_popup | popup | `0` | set to 1 to use popup or floatwin if available |
+| g:navigator_popup_position | popup_position | `'bottom'` | can be set to `'bottom'`, `'top'`, and `'center'` |
+| g:navigator_popup_width | popup_width | `'60%'` | centered popup window width |
+| g:navigator_popup_height | popup_height | `'40%'` | centered popup window height |
+| g:navigator_popup_border | popup_border | `1` | centered popup window border, set to 0 for borderless window, set to 2 for unicode border |
+
 
 ## TODO
 
