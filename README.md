@@ -205,7 +205,17 @@ Here we use another variable `g:keymap` so its command will be:
 
 ## Visual mode
 
-...
+Setup a keymap for visual mode only and use it with `:NavigatorVisual`:
+
+```VimL
+let g:keymap_visual = {'prefix':'<tab><tab>'}
+let g:keymap_visual['='] = ['<key>=', 'indent-block']
+let g:keymap_visual.q = ['<key>gq', 'format-block']
+
+vnoremap <silent><tab><tab> :NavigatorVisual *:keymap_visual<cr>
+```
+
+When you hit `<tab><tab>q` in visual mode, the `gq` will be feed into vim and the selected text will be formatted.
 
 ## Runtime evaluation
 
