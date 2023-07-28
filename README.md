@@ -248,7 +248,7 @@ Available options:
 | g:navigator_popup_position | popup_position | `'bottom'` | can be set to `'bottom'`, `'top'`, and `'center'` |
 | g:navigator_popup_width | popup_width | `'60%'` | centered popup window width |
 | g:navigator_popup_height | popup_height | `'40%'` | centered popup window height |
-| g:navigator_popup_border | popup_border | `1` | centered popup window border, set to 0 for borderless window, set to 2 for unicode border |
+| g:navigator_popup_border | popup_border | `1` | centered popup window border, set to 0 for borderless window, and 2-4 for unicode border |
 
 Global options can be directly defined like:
 
