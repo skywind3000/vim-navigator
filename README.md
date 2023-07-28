@@ -230,6 +230,8 @@ This allows you generate context sensitive keymaps.
 
 ## Customize
 
+Available options:
+
 | Global | Local | Default Value | Description |
 |-|-|-|-|
 | g:navigator_icon_separator | icon_separator | `'=>'` | separator style, can be set to an empty string |
@@ -247,6 +249,32 @@ This allows you generate context sensitive keymaps.
 | g:navigator_popup_width | popup_width | `'60%'` | centered popup window width |
 | g:navigator_popup_height | popup_height | `'40%'` | centered popup window height |
 | g:navigator_popup_border | popup_border | `1` | centered popup window border, set to 0 for borderless window, set to 2 for unicode border |
+
+Global options can be directly defined like:
+
+```VimL
+let g:navigator_icon_separator = '→'
+```
+
+Local options have higher priority than the global options with same name. They can be defined as a `config` member of your keymap dictionary variable:
+
+```VimL
+let g:my_keymap.config = {
+    \ 'icon_separator': '→',
+    \ 'popup': 1,
+    \ 'popup_position': 'center',
+    \ 'popup_width': 40,
+    \ 'popup_height': 5,
+    \ }
+```
+
+The local settings defined above will override the corresponding global settings when you are using:
+
+```VimL
+:Navigator g:my_keymap
+```
+
+There can be multiple navigator keymaps existing simultaneously with different options.
 
 
 ## TODO
