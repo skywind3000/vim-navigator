@@ -74,9 +74,9 @@ Command `:Navigator` will find the following variable `g:navigator` and read its
 
 Restart your vim and hit `<tab>` twice, you may see the Navigator window in the screen bottom:
 
-![](https://skywind3000.github.io/images/p/misc/2023/vim-menu4.png)
+![](https://skywind3000.github.io/images/p/misc/2023/vim-menu5.png)
 
-
+All the items defined previously will list in the navigator window, you can press a key to execute its command or ESC to quit without doing anything.
 
 ## Commands
 
