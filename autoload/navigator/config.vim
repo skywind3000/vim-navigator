@@ -4,7 +4,7 @@
 " config.vim - 
 "
 " Created by skywind on 2022/09/07
-" Last Modified: 2022/09/07 16:42:08
+" Last Modified: 2023/07/29 23:41
 "
 "======================================================================
 
@@ -92,7 +92,7 @@ function! s:keymap_eval(keymap) abort
 		let keymap = call(keymap, [])
 	elseif type(keymap) == 1
 		let keymap = quickui#core#string_strip(keymap)
-		if keymap =~ '\v^\$\{(.*)\}$'
+		if keymap =~ '\v^\%\{(.*)\}$'
 			let t = strpart(keymap, 2, strlen(keymap) - 3)
 			unlet keymap
 			let keymap = eval(t)
@@ -222,7 +222,7 @@ function! navigator#config#compile(keymap, opts) abort
 			let value = call(value, [])
 		elseif type(value) == v:t_string
 			let value = quickui#core#string_strip(value)
-			if value =~ '\v^\$\{(.*)\}$'
+			if value =~ '\v^\%\{(.*)\}$'
 				let t = strpart(value, 2, strlen(value) - 3)
 				unlet value
 				let value = eval(t)

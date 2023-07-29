@@ -231,7 +231,7 @@ function! GenerateSubKeymap() abort
         \ }
 endfunc
 
-let keymap.c = '${GenerateSubKeymap()}'
+let keymap.c = '%{GenerateSubKeymap()}'
 ```
 
 The function will be called each time before opening Navigator window, it should returns the latest configuration.
