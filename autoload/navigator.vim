@@ -91,53 +91,10 @@ endfunc
 
 
 "----------------------------------------------------------------------
-" execute command
-"----------------------------------------------------------------------
-function! navigator#cmd(keymap, prefix, ...) abort
-	let opts = (a:0 > 0)? (a:1) : {}
-	let path = navigator#open(a:keymap, a:prefix, opts)
-	if path == []
-		return 0
-	endif
-	let hr = navigator#config#visit(a:keymap, path)
-	if type(hr) == v:t_list
-		let cmd = (len(hr) > 0)? hr[0] : ''
-		try
-			if cmd =~ '^[a-zA-Z0-9_#]\+(.*)$'
-				" echom "cmd1: " . cmd
-				exec 'call ' . cmd
-			elseif cmd =~# '^<key>'
-				let keys = strpart(cmd, 5)
-				let keys = navigator#charname#mapname(keys)
-				call feedkeys(keys)
-			elseif cmd =~# '^<KEY>'
-				let keys = strpart(cmd, 5)
-				let keys = navigator#charname#mapname(keys)
-				call feedkeys(keys, 'n')
-			elseif cmd =~ '^<plug>'
-				let keys = strpart(cmd, 6)
-				call feedkeys("\<plug>" . keys)
-			else
-				" echom "cmd2: " . cmd
-				exec cmd
-			endif
-		catch
-			redraw
-			echohl ErrorMsg
-			echo v:exception
-			echohl None
-		endtry
-	endif
-	return 0
-endfunc
-
-
-
-"----------------------------------------------------------------------
 " start command
 "----------------------------------------------------------------------
 function! navigator#start(visual, bang, args, line1, line2, count) abort
-	let vis = (a:visual)? 'gv' : ''
+	let visual = (a:visual)? 'normal! gv' : ''
 	let line1 = a:line1
 	let line2 = a:line2
 	let opts = {}
@@ -174,9 +131,6 @@ function! navigator#start(visual, bang, args, line1, line2, count) abort
 		return 0
 	endif
 	let hr = navigator#config#visit(keymap, path)
-	if vis != ''
-		exec 'normal! ' . vis
-	endif
 	let range = ''
 	if a:line1 != a:line2
 		let range = printf("%d,%d", a:line1, a:line2)
@@ -191,13 +145,16 @@ function! navigator#start(visual, bang, args, line1, line2, count) abort
 			elseif cmd =~# '^<key>'
 				let keys = strpart(cmd, 5)
 				let keys = navigator#charname#mapname(keys)
+				exec visual
 				call feedkeys(keys)
 			elseif cmd =~# '^<KEY>'
 				let keys = strpart(cmd, 5)
 				let keys = navigator#charname#mapname(keys)
+				exec visual
 				call feedkeys(keys, 'n')
 			elseif cmd =~ '^<plug>'
 				let keys = strpart(cmd, 6)
+				exec visual
 				call feedkeys("\<plug>" . keys)
 			else
 				exec printf('%s%s', range, cmd)
@@ -212,6 +169,7 @@ function! navigator#start(visual, bang, args, line1, line2, count) abort
 		let prefix = navigator#charname#mapname(prefix)
 		let keys = s:key_translate([prefix] + path)
 		let keys = navigator#charname#mapname(keys)
+		exec visual
 		call feedkeys(keys)
 	endif
 endfunc
