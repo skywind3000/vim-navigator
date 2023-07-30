@@ -132,7 +132,9 @@ function! navigator#start(visual, bang, args, line1, line2, count) abort
 	endif
 	let hr = navigator#config#visit(keymap, path)
 	let range = ''
-	if a:line1 != a:line2
+	if a:visual != 0
+		let range = printf("%d,%d", a:line1, a:line2)
+	elseif a:line1 != a:line2
 		let range = printf("%d,%d", a:line1, a:line2)
 	elseif a:count > 0
 		let range = printf("%d", a:count)
