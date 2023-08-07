@@ -172,7 +172,12 @@ function! navigator#start(visual, bang, args, line1, line2, count) abort
 		let keys = s:key_translate([prefix] + path)
 		let keys = navigator#charname#mapname(keys)
 		exec visual
-		call feedkeys(keys)
+		let l:map = mapcheck(keys, a:visual ? 'v' : 'n')
+		if l:map ==# '' || l:map =~ 'Navigator'
+			call feedkeys(keys, 'n')
+		else
+			exec printf('%s%s', range, l:map)
+		endif
 	endif
 endfunc
 
@@ -182,7 +187,7 @@ endfunc
 "----------------------------------------------------------------------
 function! s:key_translate(array) abort
 	let output = []
-	for cc in array
+	for cc in a:array
 		let ch = navigator#charname#get_key_code(cc)
 		if ch == ''
 			let ch = cc
