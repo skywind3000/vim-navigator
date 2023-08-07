@@ -140,8 +140,11 @@ function! navigator#start(visual, bang, args, line1, line2, count) abort
 		let range = printf("%d", a:count)
 	endif
 	if type(hr) == v:t_list
-		let cmd = (len(hr) > 0)? hr[0] : ''
 		try
+			if type(hr[0]) == v:t_func
+				return call(hr[0], [])
+			endif
+			let cmd = (len(hr) > 0)? hr[0] : ''
 			if cmd =~ '^[a-zA-Z0-9_#]\+(.*)$'
 				exec printf('%scall %s', range, cmd)
 			elseif cmd =~# '^<key>'
