@@ -197,6 +197,8 @@ function! navigator#state#select(keymap, path) abort
 			if s:exit != 0
 				return []
 			endif
+		else
+			return path + [ch]
 		endif
 	endwhile
 endfunc
