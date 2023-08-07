@@ -3,7 +3,7 @@
 " navigator.vim - 
 "
 " Created by skywind on 2023/06/27
-" Last Modified: 2023/06/27 21:51:25
+" Last Modified: 2023/08/07 14:52
 "
 "======================================================================
 
@@ -31,6 +31,7 @@ let s:config_name = {
 			\ 'popup_height': '40%',
 			\ 'popup_border': 1,
 			\ 'hide_cursor': 0,
+			\ 'fallback': 0,
 			\ }
 
 

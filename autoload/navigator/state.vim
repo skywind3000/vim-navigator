@@ -4,7 +4,7 @@
 " state.vim - state manager
 "
 " Created by skywind on 2022/12/24
-" Last Modified: 2022/12/24 00:03:21
+" Last Modified: 2023/08/07 14:52
 "
 "======================================================================
 
@@ -152,6 +152,7 @@ function! navigator#state#select(keymap, path) abort
 	endfor
 	let path = s:translate_path(a:path)
 	let context = navigator#config#fetch('context', {})
+	let fallback = s:config('fallback')
 	while 1
 		let context.page = ctx.pages[pg_index]
 		let context.index = pg_index
@@ -197,7 +198,7 @@ function! navigator#state#select(keymap, path) abort
 			if s:exit != 0
 				return []
 			endif
-		else
+		elseif fallback
 			return path + [ch]
 		endif
 	endwhile

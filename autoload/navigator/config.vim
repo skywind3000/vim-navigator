@@ -30,6 +30,7 @@ let s:default_config = {
 			\ 'popup_position': 'bottom',
 			\ 'popup_border': 1,
 			\ 'position': 'botright',
+			\ 'fallback': 0,
 			\ 'splitmod': '',
 			\ }
 
