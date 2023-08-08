@@ -120,15 +120,15 @@ function! s:win_close() abort
 	if s:working_wid > 0
 		let keep = get(w:, '_navigator_keep', 0)
 		if keep
-			call navigator#utils#save_view()
+			silent call navigator#utils#save_view()
 		endif
 		exec printf('%dclose', s:working_wid)
 		if keep
-			call navigator#utils#restore_view()
+			silent call navigator#utils#restore_view()
 		endif
 		let s:working_wid = -1
 		if s:previous_wid > 0
-			exec printf('%dwincmd w', s:previous_wid)
+			silent exec printf('%dwincmd w', s:previous_wid)
 			let s:previous_wid = -1
 		endif
 	endif

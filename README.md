@@ -250,6 +250,7 @@ Available options:
 | g:navigator_padding | padding | `[2,0,2,0]` | left, top, right, bottom padding to the window edge |.
 | g:navigator_vertical | vertical | `0` | set to 1 to use a vertical split window |
 | g:navigator_position | position | `'botright'` | split position |
+| g:navigator_fallback | fallback | `0` | set to 1 to allow fallback to native keymap if key does not exist |
 | g:navigator_max_height | max_height | `20` | maximum horizontal window height |
 | g:navigator_min_height | min_height | `5` | minimal horizontal window height |
 | g:navigator_max_width | max_width | `60` | maxmum vertical window width |

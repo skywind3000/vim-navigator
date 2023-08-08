@@ -4,7 +4,7 @@
 " state.vim - state manager
 "
 " Created by skywind on 2022/12/24
-" Last Modified: 2023/08/07 14:52
+" Last Modified: 2023/08/08 20:31
 "
 "======================================================================
 
@@ -217,11 +217,11 @@ function! navigator#state#open(keymap, opts) abort
 	redraw
 	let hide_cursor = get(opts, 'hide_cursor', 1)
 	if hide_cursor
-		call navigator#display#hide_cursor()
+		silent call navigator#display#hide_cursor()
 	endif
 	let key_array = navigator#state#select(a:keymap, [])
 	if hide_cursor
-		call navigator#display#show_cursor()
+		silent call navigator#display#show_cursor()
 	endif
 	call navigator#state#close()
 	return key_array
