@@ -405,9 +405,9 @@ endfunc
 "----------------------------------------------------------------------
 function! navigator#display#close() abort
 	if s:popup == 0
-		call s:win_close()
+		silent call s:win_close()
 	else
-		call s:popup_close()
+		silent call s:popup_close()
 	endif
 endfunc
 
