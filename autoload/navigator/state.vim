@@ -199,7 +199,7 @@ function! navigator#state#select(keymap, path) abort
 				return []
 			endif
 		elseif fallback
-			return path + [ch]
+			return [ch]
 		endif
 	endwhile
 endfunc
@@ -224,6 +224,7 @@ function! navigator#state#open(keymap, opts) abort
 		silent call navigator#display#show_cursor()
 	endif
 	call navigator#state#close()
+	redraw
 	return key_array
 endfunc
 
