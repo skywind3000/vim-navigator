@@ -143,6 +143,7 @@ function! navigator#start(visual, bang, args, line1, line2, count) abort
 	if type(hr) == v:t_list
 		try
 			if type(hr[0]) == v:t_func
+				exec visual
 				return call(hr[0], [])
 			endif
 			let cmd = (len(hr) > 0)? hr[0] : ''
