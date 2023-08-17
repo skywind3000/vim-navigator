@@ -62,6 +62,9 @@ function! navigator#utils#create_buffer() abort
 		call setbufvar(bid, '&bufhidden', 'hide')
 	else
 		let bid = nvim_create_buf(v:false, v:true)
+		call setbufvar(bid, '&buftype', 'nofile')
+		call setbufvar(bid, '&bufhidden', 'hide')
+		call setbufvar(bid, 'noswapfile', 1)
 	endif
 	call setbufvar(bid, '&modifiable', 1)
 	call deletebufline(bid, 1, '$')
