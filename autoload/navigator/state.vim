@@ -30,7 +30,7 @@ let s:prefix = ''
 "----------------------------------------------------------------------
 " translate key
 "----------------------------------------------------------------------
-let s:translate = { 
+let s:translate = {
 			\ "\<c-j>" : "\<down>",
 			\ "\<c-k>" : "\<up>",
 			\ "\<PageUp>" : "\<up>",
@@ -54,10 +54,9 @@ endfunc
 
 
 "----------------------------------------------------------------------
-" init keymap and open window
+" init open window
 "----------------------------------------------------------------------
 function! navigator#state#init(opts) abort
-	let s:opts = navigator#config#init(a:opts)
 	let s:popup = get(g:, 'quickui_navigator_popup', 0)
 	let s:vertical = s:config('vertical')
 	let s:position = navigator#config#position(s:config('position'))
@@ -76,7 +75,6 @@ function! navigator#state#init(opts) abort
 	let s:state = 0
 	let s:exit = 0
 	let s:path = []
-	return 0
 endfunc
 
 
@@ -109,7 +107,7 @@ endfunc
 
 
 "----------------------------------------------------------------------
-" resize window to fit 
+" resize window to fit
 "----------------------------------------------------------------------
 function! navigator#state#resize(ctx) abort
 	let ctx = a:ctx
@@ -123,11 +121,91 @@ function! navigator#state#resize(ctx) abort
 	endif
 endfunc
 
-
 "----------------------------------------------------------------------
 " select: return key array
 "----------------------------------------------------------------------
 function! navigator#state#select(keymap, path) abort
+	let keymap = navigator#config#visit(a:keymap, [])
+	let ctx = navigator#config#compile(keymap, s:opts)
+	let opts = s:opts
+	let map = {}
+	for key in ctx.keys
+		let item = ctx.items[key]
+		let code = item.code
+		let map[code] = key
+	endfor
+	let path = s:translate_path(a:path)
+	let fallback = s:config('fallback')
+	let timeout = get(opts, 'timeout', 0)
+	while timeout > 0
+		let t = timeout
+		while t > 0
+			if getchar(1)
+				let t = timeout
+				break
+			endif
+
+			sleep 20m
+			let t -= 20
+		endwhile
+		if t <= 0 | break | endif
+
+		try
+			let code = getchar()
+		catch /^Vim:Interrupt$/
+			let code = "\<C-C>"
+		endtry
+
+		let ch = (type(code) == v:t_number)? nr2char(code) : code
+		if ch == "\<ESC>" || ch == "\<c-c>"
+			let s:exit = 1
+			return []
+		elseif has_key(s:translate, ch)
+			let newch = s:translate[ch]
+			if newch == "\<left>"
+				return []
+			endif
+		elseif has_key(map, ch)
+			let key = map[ch]
+			let item = ctx.items[key]
+			if item.child == 0
+				return [key]
+			endif
+			let km = navigator#config#visit(keymap, [key])
+			let hr = navigator#state#select(km, path + [key])
+			if s:exit != 0
+				return []
+			elseif hr == []
+				break
+			else
+				return [key] + hr
+			endif
+		elseif fallback
+			return [ch]
+		endif
+	endwhile
+
+	" open and init window opts first
+	call navigator#state#init(opts)
+	redraw
+	let hide_cursor = get(opts, 'hide_cursor', 1)
+	if hide_cursor
+		silent call navigator#display#hide_cursor()
+	endif
+	let key_array = navigator#state#select_window(a:keymap, path)
+	if hide_cursor
+		silent call navigator#display#show_cursor()
+	endif
+	call navigator#state#close()
+	redraw
+	return key_array
+	return []
+endfunction
+
+"----------------------------------------------------------------------
+" select: return key array with keymap window
+"----------------------------------------------------------------------
+function! navigator#state#select_window(keymap, path) abort
 	let keymap = navigator#config#visit(a:keymap, [])
 	let ctx = navigator#config#compile(keymap, s:opts)
 	if len(ctx.items) == 0
@@ -191,7 +269,7 @@ function! navigator#state#select(keymap, path) abort
 				return [key]
 			endif
 			let km = navigator#config#visit(keymap, [key])
-			let hr = navigator#state#select(km, path + [key])
+			let hr = navigator#state#select_window(km, path + [key])
 			if hr != []
 				return [key] + hr
 			endif
@@ -204,28 +282,14 @@ function! navigator#state#select(keymap, path) abort
 	endwhile
 endfunc
 
-
 "----------------------------------------------------------------------
 " open keymap
 "----------------------------------------------------------------------
 function! navigator#state#open(keymap, opts) abort
 	let opts = deepcopy(a:opts)
-	let hr = navigator#state#init(opts)
-	if hr != 0
-		return []
-	endif
-	redraw
-	let hide_cursor = get(opts, 'hide_cursor', 1)
-	if hide_cursor
-		silent call navigator#display#hide_cursor()
-	endif
-	let key_array = navigator#state#select(a:keymap, [])
-	if hide_cursor
-		silent call navigator#display#show_cursor()
-	endif
-	call navigator#state#close()
-	redraw
-	return key_array
+	" init keymap first
+	let s:opts = navigator#config#init(opts)
+	return navigator#state#select(a:keymap, [])
 endfunc
 
 

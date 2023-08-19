@@ -32,6 +32,7 @@ let s:config_name = {
 			\ 'popup_border': 1,
 			\ 'hide_cursor': 0,
 			\ 'fallback': 0,
+			\ 'timeout': 0,
 			\ }
 
 
