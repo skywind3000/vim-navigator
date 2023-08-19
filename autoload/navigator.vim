@@ -177,12 +177,8 @@ function! navigator#start(visual, bang, args, line1, line2, count) abort
 		let keys = s:key_translate([prefix] + path)
 		let keys = navigator#charname#mapname(keys)
 		exec visual
-		let l:map = mapcheck(keys, a:visual ? 'v' : 'n')
-		if l:map ==# '' || l:map =~ 'Navigator'
-			call feedkeys(keys, 'n')
-		else
-			exec printf('%s%s', range, l:map)
-		endif
+		" echo printf("keys: '%s'", keys)
+		call feedkeys(keys)
 	endif
 endfunc
 
