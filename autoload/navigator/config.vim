@@ -31,6 +31,7 @@ let s:default_config = {
 			\ 'popup_border': 1,
 			\ 'position': 'botright',
 			\ 'fallback': 0,
+			\ 'timeout': -1,
 			\ 'splitmod': '',
 			\ }
 

@@ -117,6 +117,7 @@ function! navigator#state#resize(ctx) abort
 	endif
 endfunc
 
+
 "----------------------------------------------------------------------
 " select: return key array
 "----------------------------------------------------------------------
@@ -130,9 +131,11 @@ function! navigator#state#select(keymap, path) abort
 		let code = item.code
 		let map[code] = key
 	endfor
+
 	let path = s:translate_path(a:path)
 	let fallback = s:config('fallback')
-	let timeout = get(opts, 'timeout', 0)
+	let timeout = get(opts, 'timeout', -1)
+
 	while timeout > 0
 		let t = timeout
 		while t > 0
@@ -140,10 +143,10 @@ function! navigator#state#select(keymap, path) abort
 				let t = timeout
 				break
 			endif
-
 			sleep 20m
 			let t -= 20
 		endwhile
+
 		if t <= 0 | break | endif
 
 		try
@@ -195,8 +198,8 @@ function! navigator#state#select(keymap, path) abort
 	call navigator#state#close()
 	redraw
 	return key_array
-	return []
-endfunction
+endfunc
+
 
 "----------------------------------------------------------------------
 " select: return key array with keymap window
@@ -277,6 +280,7 @@ function! navigator#state#select_window(keymap, path) abort
 		endif
 	endwhile
 endfunc
+
 
 "----------------------------------------------------------------------
 " open keymap
