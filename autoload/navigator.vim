@@ -179,7 +179,7 @@ function! navigator#start(visual, bang, args, line1, line2, count) abort
 		let keys = navigator#charname#mapname(keys)
 		exec visual
 		" echo printf("keys: '%s'", keys)
-		call feedkeys(keys)
+		call feedkeys(keys, 'n')
 	endif
 endfunc
 
