@@ -62,7 +62,6 @@ function! navigator#state#init(opts) abort
 	let s:position = navigator#config#position(s:config('position'))
 	let s:screencx = &columns
 	let s:screency = &lines
-	let s:prefix = get(a:opts, 'prefix', '')
 	call navigator#display#open(s:opts)
 	let s:winsize = navigator#display#getsize()
 	if s:vertical == 0
@@ -72,9 +71,6 @@ function! navigator#state#init(opts) abort
 		let s:wincx = s:config('min_width')
 		let s:wincy = s:winsize.h
 	endif
-	let s:state = 0
-	let s:exit = 0
-	let s:path = []
 endfunc
 
 
@@ -289,6 +285,10 @@ function! navigator#state#open(keymap, opts) abort
 	let opts = deepcopy(a:opts)
 	" init keymap first
 	let s:opts = navigator#config#init(opts)
+	let s:prefix = get(a:opts, 'prefix', '')
+	let s:state = 0
+	let s:exit = 0
+	let s:path = []
 	return navigator#state#select(a:keymap, [])
 endfunc
 
