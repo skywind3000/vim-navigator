@@ -85,7 +85,7 @@ function! navigator#open(keymap, prefix, ...) abort
 			return []
 		endif
 	endif
-	let hr = navigator#state#proceed(keymap, opts)
+	let hr = navigator#state#start(keymap, opts)
 	if qf != 0
 	endif
 	return hr
