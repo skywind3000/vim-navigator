@@ -32,6 +32,7 @@ let s:default_config = {
 			\ 'position': 'botright',
 			\ 'fallback': 0,
 			\ 'timeout': -1,
+			\ 'display_path': 0,
 			\ 'splitmod': '',
 			\ }
 

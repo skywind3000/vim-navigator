@@ -107,7 +107,9 @@ function! navigator#state#close_window() abort
 	if hide_cursor
 		silent call navigator#display#show_cursor()
 	endif
-	redraw
+	noautocmd redraw
+	echon ''
+	noautocmd redraw
 endfunc
 
 
@@ -180,10 +182,10 @@ function! navigator#state#select_window(keymap, path) abort
 		call navigator#state#resize(ctx)
 		let info = {}
 		let info.path = path
+		let info.mode = s:config('display_path')
 		let info.pg_index = pg_index
 		let info.pg_count = pg_count
 		call navigator#display#update(ctx.pages[pg_index].content, info)
-		noautocmd redraw
 		try
 			let code = getchar()
 		catch /^Vim:Interrupt$/

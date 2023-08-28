@@ -171,8 +171,11 @@ function! s:win_update(textline, info) abort
 	if s:bid > 0
 		call navigator#utils#update_buffer(s:bid, a:textline)
 		if s:working_wid > 0 && s:working_wid == winnr()
-			let m = ' => '
-			let t = join(a:info.path, m) . m
+			let t = ''
+			if a:info.mode == 0
+				let m = ' => '
+				let t = join(a:info.path, m) . m
+			endif
 			let t .= ' %=(C-j/k: paging, BS: return, ESC: quit)'
 			let &l:statusline = printf('Navigator (%s): %s', p, t)
 			setlocal ft=navigator
@@ -349,7 +352,10 @@ function! s:popup_update(content, info) abort
 	let p = printf('page %d/%d', a:info.pg_index + 1, a:info.pg_count)
 	call s:popup_main.set_text(a:content)
 	call s:popup_main.execute('setlocal ft=navigator')
-	let t = join(a:info.path, ' => ') . ' => '
+	let t = ''
+	if a:info.mode == 0
+		let t = join(a:info.path, ' => ') . ' => '
+	endif
 	let t = printf('Navigator (%s): %s', p, t)
 	let r = '(C-j/k: paging, BS: return, ESC: quit)'
 	if position == 'bottom'
@@ -444,6 +450,18 @@ function! navigator#display#update(content, info) abort
 		call s:win_update(a:content, a:info)
 	else
 		call s:popup_update(a:content, a:info)
+	endif
+	noautocmd redraw
+	if a:info.mode != 0
+		let path = a:info.path
+		let size = len(path)
+		for name in path
+			echohl NavigatorKey
+			echon name
+			echohl NavigatorSeparator
+			echon ' => '
+		endfor
+		echohl None
 	endif
 endfunc
 

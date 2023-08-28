@@ -33,6 +33,7 @@ let s:config_name = {
 			\ 'hide_cursor': 0,
 			\ 'fallback': 0,
 			\ 'timeout': 0,
+			\ 'display_path': 0,
 			\ }
 
 
