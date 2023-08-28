@@ -218,6 +218,34 @@ function! navigator#charname#mapname(content) abort
 endfunc
 
 
+"----------------------------------------------------------------------
+" change '<space><space>' to 'SPC SPC'
+"----------------------------------------------------------------------
+function! navigator#charname#prefix_label(prefix) abort
+	let part = []
+	let prefix = a:prefix
+	while len(prefix) > 0
+		let ch = strpart(prefix, 0, 1)
+		if ch == '<'
+			let p1 = stridx(prefix, '>')
+			if p1 < 0
+				break
+			else
+				let main = strpart(prefix, 0, p1 + 1)
+				let prefix = strpart(prefix, p1 + 1)
+				let cc = navigator#charname#get_key_label(main)
+				let cc = (cc == 'BADKEY')? main : cc
+				call add(part, cc)
+			endif
+		else
+			let cc = navigator#charname#get_key_label(ch)
+			let cc = (cc == 'BADKEY')? ch : cc
+			call add(part, cc)
+			let prefix = strpart(prefix, 1)
+		endif
+	endwhile
+	return join(part, ' ')
+endfunc
 
 
 

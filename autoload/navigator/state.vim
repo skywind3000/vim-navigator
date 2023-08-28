@@ -4,7 +4,7 @@
 " state.vim - state manager
 "
 " Created by skywind on 2022/12/24
-" Last Modified: 2023/08/24 16:10
+" Last Modified: 2023/08/24 17:28
 "
 "======================================================================
 
@@ -117,7 +117,7 @@ endfunc
 function! s:translate_path(path)
 	let path = []
 	if s:prefix != ''
-		let t = navigator#charname#get_key_label(s:prefix)
+		let t = navigator#charname#prefix_label(s:prefix)
 		let path += [t]
 	endif
 	for p in a:path
@@ -300,13 +300,15 @@ function! navigator#state#select_silent(keymap, path) abort
 endfunc
 
 
-
 "----------------------------------------------------------------------
-" start state
+" entry point of state machine
 "----------------------------------------------------------------------
 function! navigator#state#start(keymap, opts) abort
 	let opts = deepcopy(a:opts)
 	let hr = []
+	if has_key(a:keymap, 'prefix')
+		let opts.prefix = a:keymap['prefix']
+	endif
 	call navigator#state#init(opts)
 	if get(s:opts, 'timeout', -1) <= 0
 		call navigator#state#open_window()
