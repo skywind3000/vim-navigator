@@ -260,6 +260,7 @@ Available options:
 | g:navigator_popup_width | popup_width | `'60%'` | centered popup window width |
 | g:navigator_popup_height | popup_height | `'40%'` | centered popup window height |
 | g:navigator_popup_border | popup_border | `1` | centered popup window border, set to 0 for borderless window, and 2-4 for unicode border |
+| g:navigator_char_display | popup_border | `{}` | change display char like `{'<bar>': '\|', '<bslash>': '\'}` |
 
 Global options can be directly defined like:
 

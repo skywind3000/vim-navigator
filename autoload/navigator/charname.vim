@@ -142,7 +142,8 @@ function! navigator#charname#get_key_label(key)
 		return 'BADKEY'
 	endif
 	let display = s:special_names[code]
-	return get(s:char_display, tolower(display), display)
+	return get(get(g:, 'navigator_char_display', {}), tolower(display),
+				\ get(s:char_display, tolower(display), display))
 endfunc
 
 
