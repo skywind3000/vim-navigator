@@ -182,6 +182,7 @@ function! navigator#state#select_window(keymap, path) abort
 		call navigator#state#resize(ctx)
 		let info = {}
 		let info.path = path
+		let info.separator = s:config('icon_separator')
 		let info.mode = s:config('display_path')
 		let info.pg_index = pg_index
 		let info.pg_count = pg_count

@@ -455,11 +455,12 @@ function! navigator#display#update(content, info) abort
 	if a:info.mode != 0
 		let path = a:info.path
 		let size = len(path)
+		let sep = a:info.separator
 		for name in path
 			echohl NavigatorKey
 			echon name
 			echohl NavigatorSeparator
-			echon ' => '
+			echon ' ' . sep . ' '
 		endfor
 		echohl None
 	endif
