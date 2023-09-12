@@ -295,7 +295,7 @@ function! navigator#state#select_silent(keymap, path) abort
 
 	" open and init window opts first
 	call navigator#state#open_window()
-	let key_array = navigator#state#select_window(a:keymap, path)
+	let key_array = navigator#state#select_window(a:keymap, a:path)
 	call navigator#state#close_window()
 
 	return key_array
