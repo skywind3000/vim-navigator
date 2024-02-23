@@ -4,7 +4,7 @@
 " charkey.vim - 
 "
 " Created by skywind on 2022/10/26
-" Last Modified: 2022/10/26 22:06
+" Last Modified: 2024/02/22 22:19
 "
 "======================================================================
 
@@ -53,6 +53,12 @@ for key in range(10)
 	let pending += [nr2char(char2nr('0') + key)]
 endfor
 
+for i in range(12)
+	let nn = i + 1
+	let cc = eval('"\<f' . nn . '>"')
+	let s:special_names[cc] = printf('<f%d>', nn)
+endfor
+
 for ch in pending
 	let cc = eval('"\<c-' . ch . '>"')
 	if !has_key(s:special_names, cc)
@@ -97,6 +103,11 @@ let s:char_display = {
 			\ "<insert>" : "INS",
 			\ "<del>" : "DEL",
 			\ }
+
+for i in range(12)
+	let n = i + 1
+	let s:char_display[printf('<f%d>', n)] = 'F' . n
+endfor
 
 
 "----------------------------------------------------------------------
