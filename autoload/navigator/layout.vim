@@ -40,6 +40,9 @@ function! s:layout_horizon(ctx, opts) abort
 	endif
 	let min_height = navigator#config#get(a:opts, 'min_height')
 	let max_height = navigator#config#get(a:opts, 'max_height')
+	if min_height > max_height
+		let min_height = max_height
+	endif
 	let ypad = padding[1] + padding[3]
 	let min_height -= ypad
 	let max_height -= ypad
@@ -79,6 +82,9 @@ function! s:layout_vertical(ctx, opts) abort
 	let ctx.pg_size = ctx.pg_height
 	let min_width = navigator#config#get(a:opts, 'min_width')
 	let max_width = navigator#config#get(a:opts, 'max_width')
+	if min_width > max_width
+		let min_width = max_width
+	endif
 	let ctx.cx = (ctx.cx < min_width)? min_width : ctx.cx
 	let ctx.cx = (ctx.cx > max_width)? max_width : ctx.cx
 	let ctx.pages = []
