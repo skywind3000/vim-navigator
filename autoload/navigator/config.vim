@@ -332,6 +332,22 @@ function! navigator#config#init(opts) abort
 			endif
 		endif
 	endif
+	let opts.min_width = navigator#config#get(opts, 'min_width')
+	let opts.max_width = navigator#config#get(opts, 'max_width')
+	let opts.min_height = navigator#config#get(opts, 'min_height')
+	let opts.max_height = navigator#config#get(opts, 'max_height')
+	if opts.min_width > opts.max_width
+		let opts.min_width = opts.max_width
+	endif
+	if opts.min_height > opts.max_height
+		let opts.min_height = opts.max_height
+	endif
+	if opts.popup_position == 'center' && opts.popup
+		let opts.min_width = opts.popup_width
+		let opts.max_width = opts.popup_width
+		let opts.min_height = opts.popup_height
+		let opts.max_height = opts.popup_height
+	endif
 	return opts
 endfunc
 
