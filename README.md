@@ -275,8 +275,8 @@ let g:my_keymap.config = {
     \ 'icon_separator': '→',
     \ 'popup': 1,
     \ 'popup_position': 'center',
-    \ 'popup_width': 60%,
-    \ 'popup_height': 20%,
+    \ 'popup_width': '60%',
+    \ 'popup_height': '20%',
     \ }
 ```
 
