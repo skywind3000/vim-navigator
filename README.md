@@ -112,7 +112,7 @@ let g:_navigator_cpp = {...}
 let g:_navigator_python = {...}
 
 autocmd FileType c,cpp let b:navigator = g:_navigator_cpp
-autocmd FileType python let b:navigator = b:_navigator_python
+autocmd FileType python let b:navigator = g:_navigator_python
 ```
 
 And run `:Navigator` command and replace the original varname `g:navigator` with `*:navigator`
