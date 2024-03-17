@@ -254,13 +254,13 @@ Available options:
 | g:navigator_max_height | max_height | `20` | maximum horizontal window height |
 | g:navigator_min_height | min_height | `5` | minimal horizontal window height |
 | g:navigator_max_width | max_width | `60` | maxmum vertical window width |
-| g:navigator_max_width | max_width | `20` | minimal vertical window width |
+| g:navigator_min_width | min_width | `20` | minimal vertical window width |
 | g:navigator_popup | popup | `0` | set to 1 to use popup or floatwin if available |
 | g:navigator_popup_position | popup_position | `'bottom'` | can be set to `'bottom'`, `'top'`, and `'center'` |
 | g:navigator_popup_width | popup_width | `'60%'` | centered popup window width |
-| g:navigator_popup_height | popup_height | `'40%'` | centered popup window height |
+| g:navigator_popup_height | popup_height | `'20%'` | centered popup window height |
 | g:navigator_popup_border | popup_border | `1` | centered popup window border, set to 0 for borderless window, and 2-4 for unicode border |
-| g:navigator_char_display | popup_border | `{}` | change display char like `{'<bar>': '\|', '<bslash>': '\'}` |
+| g:navigator_char_display | char_display | `{}` | change display char like `{'<bar>': '\|', '<bslash>': '\'}` |
 
 Global options can be directly defined like:
 
@@ -275,8 +275,8 @@ let g:my_keymap.config = {
     \ 'icon_separator': '→',
     \ 'popup': 1,
     \ 'popup_position': 'center',
-    \ 'popup_width': 40,
-    \ 'popup_height': 5,
+    \ 'popup_width': '60%',
+    \ 'popup_height': '20%',
     \ }
 ```
 
