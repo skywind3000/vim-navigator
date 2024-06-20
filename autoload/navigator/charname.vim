@@ -204,8 +204,9 @@ endfunc
 function! navigator#charname#mapname(content) abort
 	let content = a:content
 	let xcount = 1000
+	let p1 = 0
 	while 1
-		let p1 = stridx(content, '<')
+		let p1 = stridx(content, '<', p1)
 		if p1 < 0
 			break
 		endif
@@ -220,7 +221,11 @@ function! navigator#charname#mapname(content) abort
 		catch
 			break
 		endtry
-		let content = s:replace(content, mark, replace)
+		if replace is# mark
+			let p1 = p1 + len(mark) + 1
+		else
+			let content = s:replace(content, mark, replace)
+		endif
 		let xcount -= 1
 		if xcount <= 0
 			break
