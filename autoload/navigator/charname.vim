@@ -203,30 +203,33 @@ endfunc
 "----------------------------------------------------------------------
 function! navigator#charname#mapname(content) abort
 	let content = a:content
-	let xcount = 1000
+	let output = []
+	let pos = 0
 	while 1
-		let p1 = stridx(content, '<')
+		let p1 = stridx(content, '<', pos)
 		if p1 < 0
+			call add(output, strpart(content, pos))
 			break
 		endif
 		let p2 = stridx(content, '>', p1)
 		if p2 < 0
+			call add(output, strpart(content, pos))
 			break
 		endif
 		let text = strpart(content, p1 + 1, p2 - p1 - 1)
 		let mark = '<' . text . '>'
-		try
-			let replace = eval('"\' . mark . '"')
-		catch
-			break
-		endtry
-		let content = s:replace(content, mark, replace)
-		let xcount -= 1
-		if xcount <= 0
-			break
+		let replace = mark
+		if len(mark) > 2
+			try
+				let replace = eval('"\' . mark . '"')
+			catch
+			endtry
 		endif
+		call add(output, strpart(content, pos, p1 - pos))
+		call add(output, replace)
+		let pos = p2 + 1
 	endwhile
-	return content
+	return join(output, '')
 endfunc
 
 

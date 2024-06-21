@@ -67,7 +67,7 @@ function! navigator#utils#create_buffer() abort
 		call setbufvar(bid, 'noswapfile', 1)
 	endif
 	call setbufvar(bid, '&modifiable', 1)
-	call deletebufline(bid, 1, '$')
+	silent call deletebufline(bid, 1, '$')
 	call setbufvar(bid, '&modified', 0)
 	call setbufvar(bid, '&filetype', '')
 	return bid
